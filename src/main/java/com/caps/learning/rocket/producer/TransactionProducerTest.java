@@ -58,8 +58,9 @@ public class TransactionProducerTest {
       //拼凑消息体
       for(int index = 0; index < 20; index ++){
         paramMap.put("userId", "200001_dongpf" + index);
-        Message msg = new Message("PAY_ACCOUNT", "pre",paramMap.toString().getBytes(RemotingHelper.DEFAULT_CHARSET));
-        SendResult sendResult = producer.sendMessageInTransaction(msg, null);
+        paramMap.put("index", String.valueOf(index));
+        Message msg = new Message("TEST_TRANSACTION", "TagA",paramMap.toString().getBytes(RemotingHelper.DEFAULT_CHARSET));
+        SendResult sendResult = producer.sendMessageInTransaction(msg, index);
         System.out.printf("%s%n", sendResult);
         Thread.sleep(100);
 
@@ -71,7 +72,7 @@ public class TransactionProducerTest {
     }
 
     Thread.sleep(10*1000);
-    producer.shutdown();
+//    producer.shutdown();
   }
 }
 

@@ -6,6 +6,7 @@ import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
 
 /**
@@ -16,13 +17,14 @@ public class TransactionConsumer {
   public static void main(String[] args) throws InterruptedException, MQClientException {
 
     // Instantiate with specified consumer group name.
-    DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("CID_PAY_ACCOUNT");
+    DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("TEST_TRANSACTION");
 
     // Specify name server addresses.
     consumer.setNamesrvAddr("47.100.200.152:9876");
 
     // Subscribe one more more topics to consume.
-    consumer.subscribe("PAY_ACCOUNT", "*");
+    consumer.subscribe("TEST_TRANSACTION", "*");
+    consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
     // Register callback to execute on arrival of messages fetched from brokers.
     consumer.registerMessageListener(new MessageListenerConcurrently() {
 

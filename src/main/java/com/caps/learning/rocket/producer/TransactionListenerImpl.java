@@ -19,13 +19,12 @@ public class TransactionListenerImpl implements TransactionListener {
 
   @Override
   public LocalTransactionState executeLocalTransaction(Message msg, Object arg) {
-    int value = transactionIndex.getAndIncrement();
-    int status = value % 3;
+    int status = (Integer)arg % 3;
     localTrans.put(msg.getTransactionId(), status);
     System.out.println(status);
-    if(status == 2){
-      return LocalTransactionState.COMMIT_MESSAGE;
-    }
+////    if(status == 2){
+//      return LocalTransactionState.COMMIT_MESSAGE;
+////    }
     return LocalTransactionState.UNKNOW;
   }
 
@@ -42,6 +41,7 @@ public class TransactionListenerImpl implements TransactionListener {
           return LocalTransactionState.ROLLBACK_MESSAGE;
       }
     }
+    System.out.println("checkLocalTransaction excute");
     return LocalTransactionState.COMMIT_MESSAGE;
   }
 }
